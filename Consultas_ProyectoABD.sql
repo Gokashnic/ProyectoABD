@@ -158,7 +158,26 @@ GROUP BY ind.name, tbl.name;
 
 
 --Esta consulta se realiza para buscar si la columna de la tabla dada tiene un índice
-
+/*
+SELECT
+    t.name AS Tabla,
+    c.name AS Columna,
+    i.name AS Indice,
+    i.type_desc,
+    i.is_unique,
+    i.is_primary_key
+FROM sys.indexes i
+JOIN sys.index_columns ic
+    ON i.object_id = ic.object_id
+    AND i.index_id = ic.index_id
+JOIN sys.columns c
+    ON ic.object_id = c.object_id
+    AND ic.column_id = c.column_id
+JOIN sys.tables t
+    ON i.object_id = t.object_id
+WHERE SCHEMA_NAME(t.schema_id) = 'streaming'
+    AND t.name = ?
+    AND c.name = ?;*/
 
 --Consulta para buscar toda la información requerida para realizar los cálculos en la app.
 --Nombre de la tabla, N° de Registros, Tamaño de Registro, Factor de Bloqueo y N° de páginas
