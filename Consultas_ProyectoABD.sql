@@ -154,53 +154,51 @@ GROUP BY ind.name, tbl.name;
 --costo en cantidad de accesos a disco y en tiempo.
 
 
---Esta consulta se realiza para buscar si la columna de la tabla dada tiene un índice
-/*
-SELECT
-    t.name AS Tabla,
-    c.name AS Columna,
-    i.name AS Indice,
-    i.type_desc,
-    i.is_unique,
-    i.is_primary_key
-FROM sys.indexes i
-JOIN sys.index_columns ic
-    ON i.object_id = ic.object_id
-    AND i.index_id = ic.index_id
-JOIN sys.columns c
-    ON ic.object_id = c.object_id
-    AND ic.column_id = c.column_id
-JOIN sys.tables t
-    ON i.object_id = t.object_id
-WHERE SCHEMA_NAME(t.schema_id) = 'streaming'
-    AND t.name = ?
-    AND c.name = ?;*/
 
+--Lista de tablas del esquema, para poblar el combo de selección.
+ SELECT tbl.name
+    FROM sys.tables tbl
+    JOIN sys.schemas sch ON tbl.schema_id = sch.schema_id
+    WHERE sch.name = '{ESQUEMA}'
+    ORDER BY tbl.name;
+--Esta consulta se realiza para buscar si la columna de la tabla dada tiene un índice
+    SELECT
+        t.name AS Tabla,
+        c.name AS Columna,
+        i.name AS Indice,
+        i.type_desc AS TipoIndice,
+        i.is_unique AS EsUnico,
+        i.is_primary_key AS EsLlavePrimaria
+    FROM sys.indexes i
+    JOIN sys.index_columns ic
+        ON i.object_id = ic.object_id AND i.index_id = ic.index_id
+    JOIN sys.columns c
+        ON ic.object_id = c.object_id AND ic.column_id = c.column_id
+    JOIN sys.tables t
+        ON i.object_id = t.object_id
+    WHERE SCHEMA_NAME(t.schema_id) = '{ESQUEMA}'
+        AND t.name = ?
+        AND c.name = ?;
 --Consulta para buscar toda la información requerida para realizar los cálculos en la app.
 --Nombre de la tabla, N° de Registros, Tamaño de Registro, Factor de Bloqueo y N° de páginas
-WITH DatosTabla AS
-(
+WITH DatosTabla AS (
+        SELECT
+            tbl.object_id,
+            tbl.name AS Tabla,
+            SUM(part.rows) AS Registros,
+            SUM(col.max_length) AS TamanoRegistro
+        FROM sys.tables tbl
+        JOIN sys.partitions part ON tbl.object_id = part.object_id
+        JOIN sys.columns col ON tbl.object_id = col.object_id
+        WHERE SCHEMA_NAME(tbl.schema_id) = '{ESQUEMA}'
+            AND part.index_id IN (0, 1)
+            AND tbl.name = ?
+        GROUP BY tbl.object_id, tbl.name
+    )
     SELECT
-        tbl.object_id,
-        tbl.name AS Tabla,
-        SUM(part.rows) AS Registros,
-        SUM(col.max_length) AS TamanoRegistro
-    FROM sys.tables tbl
-    JOIN sys.partitions part
-        ON tbl.object_id = part.object_id
-    JOIN sys.columns col
-        ON tbl.object_id = col.object_id
-    WHERE SCHEMA_NAME(tbl.schema_id) = 'streaming'
-        AND part.index_id IN (0,1)
-    GROUP BY tbl.object_id, tbl.name
-)
-SELECT
-    Tabla,
-    Registros,
-    TamanoRegistro,
-    FLOOR(8192.0 / TamanoRegistro) AS FactorBloqueo,
-    CEILING(
-        Registros * 1.0 /
-        FLOOR(8192.0 / TamanoRegistro)
-    ) AS Paginas
-FROM DatosTabla;
+        Tabla,
+        Registros,
+        TamanoRegistro,
+        FLOOR(8192.0 / TamanoRegistro) AS FactorBloqueo,
+        CEILING(Registros * 1.0 / FLOOR(8192.0 / TamanoRegistro)) AS Paginas
+    FROM DatosTabla;
