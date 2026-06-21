@@ -1,11 +1,7 @@
 """
 app.py
 =======
-Interfaz gráfica del proyecto StreamUCV.
-
-Permite seleccionar cualquiera de los 10 requerimientos del Diccionario
-de Datos desde un menú desplegable, ejecutarlo con un botón, y ver el
-resultado en una tabla — sin escribir SQL manualmente.
+Interfaz gráfica de StreamUCV.
 
 Ejecutar con:  python app.py
 """
@@ -45,9 +41,8 @@ class App(ctk.CTk):
         self._build_layout()
         self._on_report_change(REPORTES[0])
 
-    # ----------------------------------------------------------------
+    
     # Construcción de la interfaz
-    # ----------------------------------------------------------------
     def _build_layout(self):
         header = ctk.CTkFrame(self, corner_radius=0, fg_color="#111827")
         header.pack(fill="x")
@@ -119,9 +114,8 @@ class App(ctk.CTk):
         vsb.pack(side="right", fill="y", pady=10)
         self.tree.configure(yscrollcommand=vsb.set)
 
-    # ----------------------------------------------------------------
+   
     # Manejo de parámetros dinámicos (requerimiento 10)
-    # ----------------------------------------------------------------
     def _on_report_change(self, value):
         for widget in self.params_frame.winfo_children():
             widget.destroy()
@@ -153,9 +147,8 @@ class App(ctk.CTk):
         self.columna_entry = ctk.CTkEntry(self.params_frame, width=140, placeholder_text="nombre_columna")
         self.columna_entry.pack(side="left")
 
-    # ----------------------------------------------------------------
+   
     # Utilidades de la tabla
-    # ----------------------------------------------------------------
     def _clear_tree(self):
         self.tree.delete(*self.tree.get_children())
         self.tree["columns"] = []
@@ -170,9 +163,8 @@ class App(ctk.CTk):
         for fila in filas:
             self.tree.insert("", "end", values=fila)
 
-    # ----------------------------------------------------------------
+    
     # Ejecución de reportes
-    # ----------------------------------------------------------------
     def _ejecutar_reporte(self):
         reporte = self.selected_report.get()
         self.status_label.configure(text="Ejecutando...")

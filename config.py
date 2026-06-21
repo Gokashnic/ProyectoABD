@@ -1,9 +1,9 @@
 """
 config.py
 ==========
-Parámetros de conexión a SQL Server y supuestos de cálculo del proyecto.
+Parámetros de conexión a SQL Server.
 
-Modifica estos valores para ejecutar la aplicación en otro equipo:
+Se modifica estos valores para ejecutar la aplicación en otro equipo:
 - SERVER:   nombre o IP de la instancia de SQL Server (ej: "localhost", "DESKTOP-ABC\\SQLEXPRESS")
 - DATABASE: nombre de la base de datos (no debe cambiarse: StreamUCV)
 - USERNAME: usuario de SQL Server
@@ -11,19 +11,15 @@ Modifica estos valores para ejecutar la aplicación en otro equipo:
 - DRIVER:   driver ODBC instalado en el equipo (revisar con `pyodbc.drivers()`)
 """
 
-# ------------------------------------------------------------------
-# DATOS DE CONEXIÓN — modificar aquí, no en otras partes del código
 
-# ------------------------------------------------------------------
-SERVER = "localhost\SQLEXPRESS"
+# Datos de conexón a SQL Server 
+SERVER = "localhost"
 DATABASE = "StreamUCV"
 USERNAME = "sa"
 PASSWORD = "tu_password"
 DRIVER = "ODBC Driver 17 for SQL Server"
 
-# ------------------------------------------------------------------
-# SUPUESTOS DE CÁLCULO (según enunciado del Proyecto #1)
-# ------------------------------------------------------------------
+# Parámetros asumidos para los cálculos.
 TAMANO_PAGINA_BYTES = 8192          # SQL Server usa páginas de 8 KB
 VELOCIDAD_TRANSFERENCIA_MBPS = 17   # Velocidad de transferencia asumida para costo en tiempo
 ESQUEMA = "streaming"

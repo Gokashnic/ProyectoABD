@@ -2,7 +2,7 @@
 db.py
 ======
 Capa de acceso a datos. Contiene la conexión a SQL Server y una función
-por cada requerimiento del proyecto. Cada función ejecuta una consulta
+por cada requerimiento. Cada función ejecuta una consulta
 sobre el Diccionario de Datos de SQL Server (sys.tables, sys.indexes,
 sys.columns, etc.) y devuelve los resultados listos para mostrar en la
 interfaz.
@@ -40,9 +40,9 @@ def _ejecutar(query, params=None):
         conn.close()
 
 
-# ============================================================
+
 # Requerimiento 1 — Tablas e índices del esquema
-# ============================================================
+
 def req1_tablas_e_indices():
     query = f"""
     SELECT
@@ -56,10 +56,8 @@ def req1_tablas_e_indices():
     """
     return _ejecutar(query)
 
-
-# ============================================================
 # Requerimiento 2 — Cantidad de tablas e índices por tabla
-# ============================================================
+
 def req2_cantidad_indices_por_tabla():
     query = f"""
     SELECT
@@ -86,9 +84,9 @@ def req2_total_tablas():
     return filas[0][0] if filas else 0
 
 
-# ============================================================
+
 # Requerimiento 3 — Restricciones del esquema
-# ============================================================
+
 def req3_restricciones():
     query = f"""
     SELECT
@@ -101,9 +99,7 @@ def req3_restricciones():
     return _ejecutar(query)
 
 
-# ============================================================
 # Requerimiento 4 — Detalle de índices (columnas, unicidad)
-# ============================================================
 def req4_detalle_indices():
     query = f"""
     SELECT
@@ -127,9 +123,8 @@ def req4_detalle_indices():
     return _ejecutar(query)
 
 
-# ============================================================
+
 # Requerimiento 5 — Triggers del esquema
-# ============================================================
 def req5_triggers():
     query = f"""
     SELECT
@@ -145,9 +140,9 @@ def req5_triggers():
     return _ejecutar(query)
 
 
-# ============================================================
+
 # Requerimiento 6 — Tamaño ocupado por cada tabla
-# ============================================================
+
 def req6_tamano_tablas():
     query = f"""
     SELECT
@@ -166,9 +161,8 @@ def req6_tamano_tablas():
     return _ejecutar(query)
 
 
-# ============================================================
+
 # Requerimiento 7 — Tamaño estimado de cada registro
-# ============================================================
 def req7_tamano_registro():
     query = f"""
     SELECT
@@ -182,9 +176,8 @@ def req7_tamano_registro():
     return _ejecutar(query)
 
 
-# ============================================================
+
 # Requerimiento 8 — Tamaño de cada columna según su tipo de dato
-# ============================================================
 def req8_tamano_columnas():
     query = f"""
     SELECT
@@ -201,9 +194,9 @@ def req8_tamano_columnas():
     return _ejecutar(query)
 
 
-# ============================================================
+
 # Requerimiento 9 — Factor de bloqueo de tablas e índices
-# ============================================================
+
 def req9_factor_bloqueo_tablas():
     query = f"""
     SELECT
@@ -238,9 +231,8 @@ def req9_factor_bloqueo_indices():
     return _ejecutar(query)
 
 
-# ============================================================
+
 # Requerimiento 10 — Costo de una consulta de igualdad
-# ============================================================
 def req10_listar_tablas():
     """Lista de tablas del esquema, para poblar el combo de selección."""
     query = f"""
@@ -310,7 +302,7 @@ def req10_calcular_costo(tabla, columna):
     """
     Estima el costo de una consulta de igualdad sobre `columna` en `tabla`.
 
-    Supuestos de cálculo (documentar en el informe):
+    Supuestos de cálculo
     - Si existe un índice sobre la columna: se asume acceso casi directo —
       1 acceso de disco para recorrer el índice + 1 acceso para leer la
       página de datos del registro = 2 accesos a disco estimados.

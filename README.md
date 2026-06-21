@@ -19,8 +19,8 @@ Ejecutar en SQL Server, en este orden:
 pip install -r requirements.txt
 ```
 
-También se necesita el **ODBC Driver 17 (o 18) for SQL Server** instalado
-en el sistema operativo (no es un paquete de Python, se instala aparte).
+También se necesita el **ODBC Driver 17 for SQL Server** instalado
+en el sistema operativo.
 
 ## 3. Configurar la conexión
 
