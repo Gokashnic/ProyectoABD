@@ -162,23 +162,17 @@ GROUP BY ind.name, tbl.name;
     WHERE sch.name = '{ESQUEMA}'
     ORDER BY tbl.name;
 --Esta consulta se realiza para buscar si la columna de la tabla dada tiene un índice
-    SELECT
-        t.name AS Tabla,
-        c.name AS Columna,
-        i.name AS Indice,
-        i.type_desc AS TipoIndice,
-        i.is_unique AS EsUnico,
-        i.is_primary_key AS EsLlavePrimaria
-    FROM sys.indexes i
-    JOIN sys.index_columns ic
-        ON i.object_id = ic.object_id AND i.index_id = ic.index_id
-    JOIN sys.columns c
-        ON ic.object_id = c.object_id AND ic.column_id = c.column_id
-    JOIN sys.tables t
-        ON i.object_id = t.object_id
-    WHERE SCHEMA_NAME(t.schema_id) = '{ESQUEMA}'
-        AND t.name = ?
-        AND c.name = ?;
+   SELECT 1
+FROM sys.indexes ind
+JOIN sys.index_columns indcol
+    ON ind.object_id = indcol.object_id AND ind.index_id = indcol.index_id
+JOIN sys.columns col
+    ON indcol.object_id = col.object_id AND indcol.column_id = col.column_id
+JOIN sys.tables tbl
+    ON ind.object_id = tbl.object_id
+WHERE SCHEMA_NAME(tbl.schema_id) = '{ESQUEMA}'
+    AND tbl.name = ?
+    AND col.name = ?;
 --Consulta para buscar toda la información requerida para realizar los cálculos en la app.
 --Nombre de la tabla, N° de Registros, Tamaño de Registro, Factor de Bloqueo y N° de páginas
 WITH DatosTabla AS (
