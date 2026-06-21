@@ -16,7 +16,7 @@ Se modifica estos valores para ejecutar la aplicación en otro equipo:
 SERVER = "localhost"
 DATABASE = "StreamUCV"
 USERNAME = "sa"
-PASSWORD = "Deltamaster56#"
+PASSWORD = "tu_password"
 DRIVER = "ODBC Driver 17 for SQL Server"
 
 # Parámetros asumidos para los cálculos.
