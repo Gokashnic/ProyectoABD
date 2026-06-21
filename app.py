@@ -1,9 +1,8 @@
 """
 app.py
-=======
-Interfaz gráfica de StreamUCV.
 
-Ejecutar con:  python app.py
+Interfaz gráfica de StreamUCV.
+Ejecutar con: python app.py
 """
 
 import tkinter as tk

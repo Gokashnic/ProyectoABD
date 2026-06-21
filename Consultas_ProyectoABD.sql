@@ -106,16 +106,13 @@ WHERE SCHEMA_NAME(tbl.schema_id) = 'streaming'
 GROUP BY tbl.name;
 
 --8. Indicar el tamaño de cada columna en bytes, según su tipo de dato
-SELECT
-    tbl.name AS Tabla,
-    col.name AS Columna,
-    typ.name AS TipoDato,
-    col.max_length
+SELECT tbl.name AS Tabla, 
+col.name AS Columna,
+typ.name AS TipoDato,
+col.max_length
 FROM sys.tables tbl
-JOIN sys.columns col
-    ON tbl.object_id = col.object_id
-JOIN sys.types typ
-    ON col.user_type_id = typ.user_type_id
+JOIN sys.columns col ON tbl.object_id = col.object_id
+JOIN sys.types typ  ON col.user_type_id = typ.user_type_id
 WHERE SCHEMA_NAME(tbl.schema_id) = 'streaming'
 ORDER BY tbl.name, col.column_id;
 

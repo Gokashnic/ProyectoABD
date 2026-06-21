@@ -56,7 +56,7 @@ db.py       -> funciones que consultan el Diccionario de Datos (una por requerim
 app.py      -> interfaz gráfica (CustomTkinter)
 ```
 
-## Supuestos de cálculo (Requerimiento 10)
+## Parámetros asumidos para los cálculos (Requerimiento 10)
 
 - Tamaño de registro = suma de `max_length` de las columnas de la tabla.
 - Factor de bloqueo = `8192 / tamaño_registro` (páginas de 8 KB).

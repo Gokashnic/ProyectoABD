@@ -1,6 +1,6 @@
 """
 config.py
-==========
+
 Parámetros de conexión a SQL Server.
 
 Se modifica estos valores para ejecutar la aplicación en otro equipo:
