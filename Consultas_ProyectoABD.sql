@@ -179,7 +179,7 @@ WITH DatosTabla AS (
         SELECT
             tbl.object_id,
             tbl.name AS Tabla,
-            SUM(part.rows) AS Registros,
+            MAX(part.rows) AS Registros,
             SUM(col.max_length) AS TamanoRegistro
         FROM sys.tables tbl
         JOIN sys.partitions part ON tbl.object_id = part.object_id
