@@ -1,7 +1,7 @@
 """
 db.py
-======
-Capa de acceso a datos. Contiene la conexión a SQL Server y una función
+
+Este archivo contiene la conexión a SQL Server y una función
 por cada requerimiento. Cada función ejecuta una consulta
 sobre el Diccionario de Datos de SQL Server (sys.tables, sys.indexes,
 sys.columns, etc.) y devuelve los resultados listos para mostrar en la
